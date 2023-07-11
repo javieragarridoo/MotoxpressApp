@@ -1,0 +1,27 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>test</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ng-container *ngIf="data_order.length > 0; else noData">
+    <div *ngFor="let order of data_order">
+      <h5>Order ID: {{ order.id }}</h5>
+      <hr>
+      <h5>User ID: {{ order.usuarioId }}</h5>
+
+      <p>Address: {{ order.address }}, {{ order.address.landmark }}, {{ order.address.title }}</p>
+      <p>Restaurant: {{ order.restaurant.name }}</p>
+      <!-- Mostrar más propiedades del objeto Order según tus necesidades -->
+      <hr>
+      <!-- Ejemplo de botón para seleccionar una data_order -->
+      [routerLink]="['/', 'admin','test', 'detalle-orden', order.id]"
+      <button (click)="selectDataOrder(data_order[0])">Ver Detalle</button>
+    </div>
+  </ng-container>
+  
+  <ng-template #noData>
+    <p>No hay datos disponibles.</p>
+  </ng-template>
+</ion-content>

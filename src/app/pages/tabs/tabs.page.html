@@ -1,0 +1,30 @@
+<ion-tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="home" *ngIf="user_type == 'cliente'">
+      <ion-icon name="briefcase-outline"></ion-icon>
+      <ion-label>HOME</ion-label>
+      <!-- <ion-badge>6</ion-badge> -->
+    </ion-tab-button>
+
+    <!-- <ion-tab-button tab="search" *ngIf="user_type == 'rider'">
+      <ion-icon name="search-outline"></ion-icon>
+      <ion-label>SEARCH</ion-label>
+    </ion-tab-button> -->
+
+    <ion-tab-button tab="cart" *ngIf="user_type == 'cliente'">
+      <ion-icon name="wallet-outline"></ion-icon>
+      <ion-label>PAGO</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="ver-asignadas" *ngIf="user_type == 'rider'" >
+      <ion-icon name="location-outline"></ion-icon>
+      <ion-label>PEDIDOS ASIGNADOS</ion-label>
+    </ion-tab-button>
+
+    <ion-tab-button tab="account">
+      <ion-icon name="person-outline"></ion-icon>
+      <ion-label>ACCOUNT</ion-label>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>

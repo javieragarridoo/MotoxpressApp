@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title color="tertiary">Cart</ion-title>
+    <ion-buttons slot="start" *ngIf="urlCheck && urlCheck != 'tabs'">
+      <ion-back-button [defaultHref]="getPreviousUrl()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <app-empty-screen *ngIf="!model?.restaurant"></app-empty-screen>
+
+  <ng-container *ngIf="model?.restaurant">
+    <ion-list lines="none" class="borderBottomSmall">
+      <ion-item>
+        <ion-thumbnail slot="start">
+          <ion-img [src]="model?.restaurant?.cover ? model.restaurant.cover : 'assets/imgs/1.jpg'"></ion-img>
+        </ion-thumbnail>
+        <ion-label>
+          <ion-text><h4>{{model?.restaurant?.name}}</h4></ion-text>
+          <ion-note>{{model?.restaurant?.address}}</ion-note>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  
+    <ion-item lines="none" class="borderBottom">
+      <ion-icon slot="start" name="list-outline"></ion-icon>
+      <ion-input type="text" placeholder="Dejanos las intrucciones de la entrega" [(ngModel)]="instruction"></ion-input>
+    </ion-item>
+  
+    <ion-list class="borderBottom">
+      <ion-list-header>
+        <ion-label color="tertiary">Detalle Boleta</ion-label>
+      </ion-list-header>
+      <ion-item lines="none">
+        <ion-label color="dark">Costo Entrega</ion-label>
+        <ion-text slot="end" color="dark">${{model?.totalPrice | number: '0.2-2'}}</ion-text>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label color="dark">Cargo de servicio</ion-label>
+        <ion-text slot="end" color="dark">${{model?.deliveryCharge | number: '0.2-2'}}</ion-text>
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label color="dark">Total a pagar</ion-label>
+        <ion-text slot="end" color="dark"><h5>${{model?.grandTotal | number: '0.2-2'}}</h5></ion-text>
+      </ion-item>
+    </ion-list>
+
+  </ng-container>
+
+  <h3 *ngIf="location?.lat && location?.id && location?.id != ''">Direccion de entrega:</h3>
+  <div id="ruta">
+    <input id="input-autocomplete" type="text" placeholder="Buscar lugar" (input)="onInputChange($event)" cancelable="false" >
+  </div>
+  <div id="map"></div>
+  <ion-row class="botones-rutas">
+    <ion-row *ngIf="location?.lat && location?.id && location?.id != ''">
+      <ion-col  >
+        <ion-button  *ngIf="boton_recarca"  class="go-btn" expand="block" (click)="recargarMapa()">Recargar Mapa</ion-button>
+      </ion-col>
+      <ion-col   *ngIf="boton_iniciar"><ion-button class="go-btn" expand="block" (click)="calcularRuta()">Iniciar Ruta</ion-button>
+      </ion-col>
+    </ion-row>
+      
+  </ion-row> 
+</ion-content>
+
+<ion-footer *ngIf="model?.restaurant">
+  <ion-toolbar>
+    <ion-row *ngIf="!location?.lat">
+      <ion-col size="6">
+        <ion-button expand="block" fill="outline" color="success" (click)="addAddress()">
+          AÑADIR DIRECCION
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" color="success" (click)="changeAddress()">
+          ELEGIR DIRECCION
+        </ion-button>
+      </ion-col>
+    </ion-row>    
+    <ion-item lines="none" *ngIf="location?.lat && location?.id && location?.id != ''">
+      <ion-button slot="end" size="small" fill="clear" (click)="changeAddress()">CHANGE</ion-button>
+      <ion-icon slot="start" name="home-outline"></ion-icon>
+      <ion-label>
+        <h5>Recogido en {{location?.title}}</h5>
+        <ion-text color="medium"><p>{{location?.address}}</p></ion-text>
+      </ion-label>
+    </ion-item>
+    <ion-item lines="none" *ngIf="location?.lat && (!location?.id || location?.id == '')">
+      <!-- <ion-button slot="end" size="small" fill="clear" (click)="addAddress(location)">ADD</ion-button> -->
+      <ion-icon slot="start" name="location-outline"></ion-icon>
+      <ion-label>
+        <h5>Estas en una nueva direccion!</h5>
+        <ion-text color="medium"><p>{{location?.address}}</p></ion-text>
+      </ion-label>
+    </ion-item>
+    <ion-button 
+      *ngIf="location?.lat && (!location?.id || location?.id == '')" 
+      expand="block" color="success"
+      (click)="addAddress(location)">
+      AÑADE DIRECCION PARA SEGUIR
+    </ion-button>
+    <ion-row *ngIf="location?.lat && location?.id && location?.id != '' && buscado===true">
+      <ion-col size="6" class="ion-no-padding" (click)="scrollToBottom()">
+        <ion-item lines="none" color="light" class="ion-no-padding">
+          <ion-label>
+            <h6>${{model?.grandTotal | number: '0.2-2'}}</h6>
+            <ion-text color="secondary">
+              Boleta
+              <ion-icon name="chevron-down-outline"></ion-icon>
+            </ion-text>
+          </ion-label>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6" class="ion-text-center colStyle" (click)="makePayment()">
+        <ion-button fill="clear">REALIZAR PEDIDO</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Ordenes Asignadas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="confirmLogout()">
+        <ion-icon name="power-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <div *ngIf="isLoading" class="ion-text-center alignSpinner">
+    <ion-spinner color="primary"></ion-spinner>
+  </div>
+
+  <ng-container *ngIf="!isLoading">
+    <ion-list class="borderBottom">
+      <ion-item lines="full">
+        <ion-button slot="end" fill="clear" (click)="editProfile()">EDIT</ion-button>
+        <ion-label>
+          <ion-text class="ion-text-uppercase"><h4>{{profile?.name}}</h4></ion-text>
+          <p>{{profile?.phone}} | {{profile?.email}}</p>     
+        </ion-label>
+      </ion-item>
+    </ion-list>
+    
+
+    <ion-list>
+      <ion-list-header>
+        <ion-label color="primary">Ordenes asignadas: </ion-label>
+      </ion-list-header>
+      <ng-container *ngIf="!orders || orders?.length == 0; else elseBlock">
+        <ion-text class="ion-text-center">
+          <!-- Contenido si se cumple la condición -->
+          Esperando Pedidos
+        </ion-text>
+      </ng-container>
+      
+      <ng-template #elseBlock>
+        <ion-text class="ion-text-center">
+          <ion-item-group lines="none" class="borderBottom2">
+            <ion-item>
+            </ion-item>
+            <ion-item>
+              <ion-label>
+                {{ orders.address.address }}, {{ orders.address.landmark }},
+                <p>{{ orders.address.title }}</p>
+                <ion-text>
+                  <p>
+                    ${{orders?.grandTotal}}
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                  </p>
+                </ion-text>
+              </ion-label>
+              <ion-note slot="end" color="dark">
+                {{orders?.status}}
+                <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+              </ion-note>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-label>
+                <p class="time">{{orders?.time}}</p>
+                <ion-row>
+                  <ion-col size="6">
+                  </ion-col>
+                  <ion-col size="6">
+                    <ion-button expand="full" color="primary" 
+                    [routerLink]="['/', 'tabs','ver-asignadas','geo',orders.address.lat, orders.address.lng ]">
+                      Ver direccion
+                    </ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-label>
+            </ion-item>
+          </ion-item-group>
+        </ion-text>
+      </ng-template>
+    </ion-list>
+  </ng-container>
+
+</ion-content>

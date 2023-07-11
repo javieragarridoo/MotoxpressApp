@@ -1,0 +1,70 @@
+ion-img {
+    border-radius: 5px;
+}
+
+ion-input {
+    font-size: 0.8rem;
+}
+
+ion-footer {
+    ion-text, p {
+        font-size: 0.7rem;
+    }
+    ion-col {
+        ion-label {
+            margin-left: 5px;
+        }
+    }
+}
+ion-item {
+    letter-spacing: 0.5px;
+    ion-text {
+        font-size: 0.8rem;
+    }
+    ion-label {
+        font-size: 0.86rem;
+    }
+    h5 {
+        font-weight: bold;
+    }
+}
+.colStyle {
+    background-color: var(--ion-color-success);
+}
+
+ion-content{
+    #map{
+        width: 92%;
+        height: 40%;
+        display: block;
+        margin-left: 1rem;
+        border-radius: 15px;
+        margin-top: 1.2rem;
+    }
+    #indicaciones{
+        font-size: small;
+        padding: 10px;
+        width: 100%;
+        height: 40%;
+        overflow-y: auto;
+        display: block;
+    }
+    .go-btn{
+        --ion-color-primary: #012c56;
+    }
+    .sign-btn{
+        --ion-color-primary: #fbb31c;
+    }
+    ion-toolbar{
+        --ion-background-color: transparent;
+        --opacity: 0;
+    }
+}
+#ruta{
+    text-align: center;
+}
+
+h3{
+    font-size: 95%;
+    padding-left: 1rem;
+}

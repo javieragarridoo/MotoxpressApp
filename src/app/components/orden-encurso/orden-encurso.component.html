@@ -1,0 +1,32 @@
+<ion-item-group lines="none" class="borderBottom2">
+  <ion-item>
+    <h4>Cliente: {{userNamombre}}</h4>
+  </ion-item>
+  <ion-item >
+    <ion-label>
+      {{ order.address.address }}, {{ order.address.landmark }},
+      <p>{{ order.address.title }}</p>
+      <ion-text>
+        <p>
+          ${{order?.grandTotal}}
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </p>
+      </ion-text>
+    </ion-label>
+    <ion-note slot="end" color="dark">
+      {{order?.status}}
+      <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+    </ion-note>
+  </ion-item>
+  <ion-item lines="none">
+    <ion-label>
+      <p class="time">{{order?.time}}</p>
+      <ion-row>
+        <ion-col size="6">
+        </ion-col>
+        <ion-col size="6">
+        </ion-col>
+      </ion-row>
+    </ion-label>
+  </ion-item>
+</ion-item-group>

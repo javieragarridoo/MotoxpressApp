@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/admin/ver-ordenes"></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      Detalle de la Orden
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Resto del contenido de la página -->
+
+
+<ion-content>
+  <ion-spinner *ngIf="isLoading"></ion-spinner>
+  <div *ngIf="!isLoading">
+    <ion-card>
+      <h4>Solicitante:</h4>
+      <ion-card-header>
+        <ion-card-subtitle>{{ userName }}</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div *ngIf="order">
+          <h4>Datos de la Orden</h4>
+          <!--<p>Estado: {{ order.status }}</p> -->
+          <p>Hora de solicitud: {{ order.time }}</p>
+          <p>Dirección: {{ order.address.address }}</p>
+          <p>Order: {{ order.address.title }}</p>
+          <p>Restaurant: {{ order.restaurant.name }}</p>
+          <p>Instrucciones: {{ order.instruction }}</p>
+        </div>
+        <hr>
+        <ion-label>Seleccionar Rider:</ion-label>
+        <hr>
+        <select [(ngModel)]="selectedRider" >
+          <option  *ngFor="let rider of riderUsers" [ngValue]="rider">{{ rider.name}}</option>
+        </select>
+        <ion-button *ngIf="asignar_boton && selectedRider!=''" expand="full" (click)="asignarOrden()">Asignar</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+

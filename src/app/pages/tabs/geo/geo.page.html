@@ -1,0 +1,81 @@
+
+<ion-header>
+  <ion-buttons slot="start">
+    <ion-back-button defaultHref="/admin/ver-ordenes"></ion-back-button>
+  </ion-buttons>
+  <ng-container>
+    <h3>Direccion de entrega: {{direccion_llegada_lugar}}</h3>
+  </ng-container> 
+</ion-header>
+
+<ion-content>
+  <div id="map"></div>
+  <ion-row>
+      <ion-col>
+        <ion-button *ngIf="boton_recarga===false && boton_ruta_recogida" class="sign-btn" expand="block" (click)="marcarRecogida()">Marcar Recogida</ion-button>
+          <ion-button *ngIf="boton_recarga && boton_entrega" class="sign-btn" expand="block" (click)="setOpen(true)">Entregar Pedido</ion-button>
+          <ion-modal [isOpen]="isModalOpen">
+            <ng-template>
+              <ion-header>
+                <ion-toolbar>
+                  <ion-title>Establecer tarifa</ion-title>
+                  <ion-buttons slot="end">
+                    <ion-button (click)="setOpen(false)">cerrar</ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+              </ion-header>
+              <ion-content class="ion-padding">
+                  <ion-list>
+                      <ion-item>
+                          <ion-label position="stacked">Iniciar Contador</ion-label>
+                          <p>Inicia el contador para calcular el tiempo extra utilizado por el cliente para completar el pedido</p>
+                          
+                          <ion-grid>
+                            <ion-row>
+                              <ion-col size="12" class="ion-text-center">
+                                <h2>{{ minutos }}:{{ segundos }} </h2>
+                              </ion-col>
+                            </ion-row>
+                            <ion-row>
+                              <ion-col size="6" class="ion-text-center">
+                                <ion-button expand="full" (click)="startTimer()" [disabled]="timer">Iniciar</ion-button>
+                              </ion-col>
+                              <ion-col size="6" class="ion-text-center">
+                                <ion-button expand="full" (click)="stopTimer()" [disabled]="!timer">Detener</ion-button>
+                              </ion-col>
+                            </ion-row>
+                          </ion-grid>
+                          
+                        </ion-item>
+
+                          <ion-label class="ion-margin">
+                            Evidencia de entrega:
+                          </ion-label>
+
+                        <div align="center" class="img">
+                          <img *ngIf="image" [src]="image"/>
+                          <ion-icon *ngIf="!image" name="images-outline"></ion-icon>
+                        </div>
+                      
+                        <ion-row>
+                          <ion-col size="6">
+                            <ion-button expand="block" class="ion-margin" (click)="takePicture()">
+                              Tomar foto
+                            </ion-button>
+                          </ion-col>
+                        </ion-row>
+
+                        <img [src]="selectedImage?.webPath" />
+                      <ion-item>
+                        </ion-item>
+                    </ion-list>
+                    <ion-button *ngIf="foto_boolean" class="go-btn" expand="full" shape="round" (click)="finalizarPedido()">Finalizar</ion-button>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
+      </ion-col>
+      <ion-col><ion-button *ngIf="!boton_entrega" class="go-btn" expand="block" (click)="calcularRuta()">Iniciar Ruta</ion-button></ion-col>
+  </ion-row> 
+  <div id="indicaciones"></div>
+
+</ion-content>
